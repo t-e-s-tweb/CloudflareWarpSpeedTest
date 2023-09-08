@@ -46,18 +46,18 @@ CloudflareWarpSpeedTest \n` + `
 `
 	var minDelay, maxDelay int
 	var maxLossRate float64
-	flag.IntVar(&task.Routines, "n", 200, "延迟测速线程")
-	flag.IntVar(&task.PingTimes, "t", 10, "延迟测速次数")
+	flag.IntVar(&task.Routines, "n", 20, "延迟测速线程")
+	flag.IntVar(&task.PingTimes, "t", 1, "延迟测速次数")
 
 	flag.IntVar(&maxDelay, "tl", 300, "平均延迟上限")
 	flag.IntVar(&minDelay, "tll", 0, "平均延迟下限")
 	flag.Float64Var(&maxLossRate, "tlr", 1, "丢包几率上限")
 
 	flag.BoolVar(&task.ScanAllPort, "full", false, "扫描全部端口")
-	flag.BoolVar(&task.QuickMode, "q", false, "快速模式，仅随机扫描5000个IP的结果")
-	flag.IntVar(&utils.PrintNum, "p", 10, "显示结果数量")
+	flag.BoolVar(&task.QuickMode, "q", true, "快速模式，仅随机扫描5000个IP的结果")
+	flag.IntVar(&utils.PrintNum, "p", 0, "显示结果数量")
 	flag.StringVar(&task.IPText, "ip", "", "指定IP段数据")
-	flag.StringVar(&utils.Output, "o", "result.csv", "输出结果文件")
+	flag.StringVar(&utils.Output, "o", "1.tmp", "输出结果文件")
 
 	flag.BoolVar(&printVersion, "v", false, "打印程序版本")
 	flag.Usage = func() { fmt.Print(help) }
