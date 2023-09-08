@@ -4,6 +4,7 @@
 name: Go-Releaser
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
