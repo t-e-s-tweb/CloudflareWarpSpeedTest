@@ -21,7 +21,7 @@ const (
 )
 
 var (
-	QuickMode = false
+	QuickMode = true
 
 	ScanAllPort = false
 
