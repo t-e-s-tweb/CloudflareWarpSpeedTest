@@ -13,11 +13,11 @@ import (
 )
 
 const (
-	defaultRoutines    = 200
-	defaultPingTimes   = 10
+	defaultRoutines    = 1
+	defaultPingTimes   = 1
 	udpConnectTimeout  = time.Millisecond * 1000
 	warpValidatePacket = "cf000000628748824150e38f5c64b477"
-	quickModeMaxIpNum  = 5000
+	quickModeMaxIpNum  = 20
 )
 
 var (
@@ -41,6 +41,12 @@ var (
 		"162.159.192.0/24",
 		"162.159.193.0/24",
 		"162.159.195.0/24",
+		"162.159.204.0/24",
+		"188.114.96.0/24",
+		"188.114.97.0/24",
+		"188.114.98.0/24",
+		"188.114.99.0/24",
+		"188.114.96.0/24",
 	}
 
 	MaxWarpPortRange = 10000
