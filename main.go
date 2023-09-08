@@ -71,7 +71,7 @@ CloudflareWarpSpeedTest \n` + `
 func main() {
 	task.InitRandSeed()
 
-	fmt.Printf("CloudflareWarpSpeedTest\n\n")
+	fmt.Printf("goglo\n\n")
 
 	pingData := task.NewWarping().Run().FilterDelay().FilterLossRate()
 	utils.ExportCsv(pingData)
