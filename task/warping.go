@@ -24,11 +24,11 @@ import (
 )
 
 const (
-	defaultRoutines             = 200
-	defaultPingTimes            = 10
+	defaultRoutines             = 1
+	defaultPingTimes            = 1
 	udpConnectTimeout           = time.Millisecond * 1000
 	wireguardHandshakeRespBytes = 92
-	quickModeMaxIpNum           = 5000
+	quickModeMaxIpNum           = 20
 	warpPublicKey               = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo="
 )
 
