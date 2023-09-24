@@ -37,7 +37,7 @@ var (
 
 	PublicKey string
 
-	QuickMode = false
+	QuickMode = true
 
 	ScanAllPort = false
 
