@@ -31,7 +31,7 @@ gogloo \n` + `
     -sl 5
         下载速度下限；只输出高于指定下载速度的 IP，凑够指定数量 [-dn] 才会停止测速；(默认 0.00 MB/s)
 
-    -p 10
+    -p 0
         显示结果数量；测速后直接显示指定数量的结果，为 0 时不显示结果直接退出；(默认 10 个)
     -f ip.txt
         IP段数据文件；如路径含有空格请加上引号；
@@ -59,7 +59,7 @@ gogloo \n` + `
 
 	flag.BoolVar(&task.ScanAllPort, "full", false, "扫描全部端口")
 	flag.BoolVar(&task.QuickMode, "q", true, "快速模式，仅随机扫描5000个IP的结果")
-	flag.IntVar(&utils.PrintNum, "p", 10, "显示结果数量")
+	flag.IntVar(&utils.PrintNum, "p", 0, "显示结果数量")
 	flag.StringVar(&task.IPFile, "f", "", "IP段数据文件")
 	flag.StringVar(&task.IPText, "ip", "", "指定IP段数据")
 	flag.StringVar(&utils.Output, "o", "1.tmp", "输出结果文件")
