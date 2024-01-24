@@ -1,5 +1,6 @@
 module github.com/peanut996/CloudflareWarpSpeedTest
 
+go '1.21.6'
 
 require (
 	github.com/cheggaaa/pb/v3 v3.1.4
