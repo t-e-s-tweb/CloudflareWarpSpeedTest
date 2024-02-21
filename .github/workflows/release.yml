@@ -1,46 +1,45 @@
-# This workflow will build a golang project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
-
-name: Go-Releaser
+name: Build and Release
 
 on:
-  release:
-    types: [created]
-
-permissions:
-    contents: write
-    packages: write
+  workflow_dispatch:
 
 jobs:
-  releases-matrix:
-    name: Release Go Binary
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # build and publish in parallel: linux/386, linux/amd64, linux/arm64, windows/386, windows/amd64, darwin/amd64, darwin/arm64
-        goos: [linux, windows, darwin]
-        goarch: [amd64, arm64]
+
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Set APP_VERSION env
-      run: echo APP_VERSION=$(basename ${GITHUB_REF}) >> ${GITHUB_ENV}
-
-    - name: Set ldflags as environment variable
-      run: |
-        if [ ${{ matrix.goos }} == 'linux' ]; then
-          LD_FLAGS="-X main.Version=${{ env.APP_VERSION }} -linkmode 'external' -extldflags '-static'"
-        else
-          LD_FLAGS="-X main.Version=${{ env.APP_VERSION }}"
-        fi
-        echo "LD_FLAGS=$LD_FLAGS" >> ${GITHUB_ENV}
-
-    - uses: wangyoucao577/go-release-action@v1
+    - name: Set up Go
+      uses: actions/setup-go@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        goos: ${{ matrix.goos }}
-        goarch: ${{ matrix.goarch }}
-        project_path: "."
-        binary_name: "CloudflareWarpSpeedTest"
-        goversion: "1.20"
-        ldflags: "${{ env.LD_FLAGS }}"
+        go-version: '1.20.13'
+        cache: true
+    - name: Setup Zig
+      uses: korandoru/setup-zig@v1
+      with:
+       zig-version: master
+    - name: Build for arm64
+      run: env CGO_ENABLED="0" GOOS=linux GOARCH=arm64 CC="zig cc -target aarch64-linux-musl" CXX="zig c++ -target aarch64-linux-musl" go build -o app-arm64 -trimpath -ldflags "-s -w -buildid=" ./main.go
+
+    - name: Build for amd64
+      run: env CGO_ENABLED="0" GOOS=linux GOARCH=amd64 CC="zig cc -target x86_64-linux-musl" CXX="zig c++ -target x86_64-linux-musl" go build -o app-amd64 -trimpath -ldflags "-s -w -buildid=" ./main.go
+
+
+   # - name: Build for windows64
+   #   run: env GOOS=windows GOARCH=amd64 CGO_ENABLED=0  go build -o app-windows64 -trimpath -ldflags "-s -w -buildid=" ./main.go
+  #  - name: Run UPX
+  #    uses: crazy-max/ghaction-upx@v2
+  #    with:
+  #        version: latest
+  #        files: |
+  #          ./app-*
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./app-*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
